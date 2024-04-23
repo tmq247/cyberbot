@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2023 TheHamkerCat
+Copyright (c) 2024 TheHamkerCat
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -472,7 +472,7 @@ async def set_welcome_func(_, message):
             file_id = None
             text = replied_message.text
             raw_text = text.markdown
-        if replied_message.reply_markup and not "~" in raw_text:
+        if replied_message.reply_markup and not findall(r"\[.+\,.+\]", raw_text):
             urls = extract_urls(replied_message.reply_markup)
             if urls:
                 response = "\n".join(

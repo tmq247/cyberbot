@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2023 TheHamkerCat
+Copyright (c) 2024 TheHamkerCat
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -381,10 +381,21 @@ async def get_data_and_name(replied_message, message):
 
 async def get_user_id_and_usernames(client) -> dict:
     with client.storage.conn:
-        users = client.storage.conn.execute(
-            'SELECT * FROM peers WHERE type in ("user", "bot") AND username NOT null'
-        ).fetchall()
+        query = """
+        SELECT usernames.id, usernames.username
+        FROM usernames
+        WHERE usernames.id IN (
+            SELECT peers.id
+            FROM peers
+            WHERE peers.type IN ("user", "bot") AND username IS NOT NULL
+        )
+        """
+        result = client.storage.conn.execute(query).fetchall()
+
     users_ = {}
-    for user in users:
-        users_[user[0]] = user[3]
+    for row in result:
+        user_id = row[0]
+        username = row[1]
+        users_[user_id] = username
+
     return users_

@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2023 TheHamkerCat
+Copyright (c) 2024 TheHamkerCat
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -36,7 +36,7 @@ async def get_sticker_set_by_name(
                 hash=0,
             )
         )
-    except errors.exceptions.not_acceptable_406.StickersetInvalid:
+    except errors.exceptions.bad_request_400.StickersetInvalid:
         return None
 
 

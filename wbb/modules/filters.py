@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2023 TheHamkerCat
+Copyright (c) 2024 TheHamkerCat
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -112,7 +112,7 @@ async def save_filters(_, message):
         if replied_message.voice:
             _type = "voice"
             file_id = replied_message.voice.file_id
-        if replied_message.reply_markup and not "~" in data:
+        if replied_message.reply_markup and not re.findall(r"\[.+\,.+\]", data):
             urls = extract_urls(replied_message.reply_markup)
             if urls:
                 response = "\n".join(
