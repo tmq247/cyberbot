@@ -122,8 +122,8 @@ async def quotly_func(client, message: Message):
             "Incorrect argument, check quotly module in help section."
         )
     try:
-        if not message:
-            return await m.edit("Something went wrong.")
+        #if not message:
+        #    return await m.edit("Something went wrong.")
 
         sticker = await quotify(messages)
         if not sticker[0]:
