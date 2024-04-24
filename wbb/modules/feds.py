@@ -24,6 +24,7 @@ SOFTWARE.
 
 import asyncio
 import uuid
+import html
 
 from pyrogram import filters
 from pyrogram.enums import ChatMemberStatus, ChatType, ParseMode
@@ -229,7 +230,7 @@ async def rename_fed(client, message):
     args = msg.text.split(None, 2)
 
     if len(args) < 3:
-        return await msg.reply_text("usage: /renamefed <fed_id> <newname>")
+        return await msg.reply_text("usage: /renamefed fed_id newname")
 
     fed_id, newname = args[1], args[2]
     verify_fed = await get_fed_info(fed_id)
@@ -1042,23 +1043,23 @@ async def fed_owner_help(client, cb):
  • /unfban <user> <reason>**:** Removes a user from a fed ban
  • /sunfban**:** Unfban a user without sending a notification
  • /fedadmins**:** Show Federation admin
- • /fedchats <FedID>**:** Get all the chats that are connected in the Federation
+ • /fedchats <Fed_ID>**:** Get all the chats that are connected in the Federation
  • /fbroadcast **:** Broadcasts a messages to all groups that have joined your fed
  """
     else:
         text = """**User Commands:**
-• /fedinfo <FedID>: Information about a federation.
-• /fedadmins <FedID>: List the admins in a federation.
-• /joinfed <FedID>: Join the current chat to a federation. A chat can only join one federation. Chat owners only.
+• /fedinfo <Fed_ID>: Information about a federation.
+• /fedadmins <Fed_ID>: List the admins in a federation.
+• /joinfed <Fed_ID>: Join the current chat to a federation. A chat can only join one federation. Chat owners only.
 • /leavefed: Leave the current federation. Only chat owners can do this.
 • /fedstat: List all the federations that you have been banned in.
-• /fedstat <user ID>: List all the federations that a user has been banned in.
-• /fedstat <FedID>: Gives information about your ban in a federation.
-• /fedstat <user ID> <FedID>: Gives information about a user's ban in a federation.
+• /fedstat <user_ID>: List all the federations that a user has been banned in.
+• /fedstat <Fed_ID>: Gives information about your ban in a federation.
+• /fedstat <user_ID> <FedID>: Gives information about a user's ban in a federation.
 • /chatfed: Information about the federation the current chat is in.
 """
     await cb.message.edit(
-        text,
+        html.escape(text),
         reply_markup=InlineKeyboardMarkup(
             [
                 [
