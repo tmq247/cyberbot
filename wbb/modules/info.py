@@ -73,7 +73,7 @@ async def get_chat_info(chat, already=False):
     chat_id = chat.id
     username = chat.username
     title = chat.title
-    type_ = str(chat.type).split(".", 1)[1]
+    type_ = str(chat.type).split(".")[1]
     is_scam = chat.is_scam
     description = chat.description
     members = chat.members_count
@@ -111,7 +111,7 @@ async def info_func(_, message: Message):
     try:
         info_caption, photo_id = await get_user_info(user)
     except Exception as e:
-        return await m.edit(str(e))
+        return await m.edit(f"{str(e)}, Perhaps you meant to use /chat_info ?")
 
     if not photo_id:
         return await m.edit(info_caption, disable_web_page_preview=True)
