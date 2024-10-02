@@ -1,9 +1,11 @@
-FROM williambutcherbot/python:latest
+FROM python:slim-bullseye
 
 WORKDIR /wbb
 RUN chmod 777 /wbb
 
-# Installing Requirements
+RUN apt-get -qq update && apt-get -qq -y upgrade
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y git gcc build-essential
+
 RUN pip3 install -U pip
 COPY requirements.txt .
 RUN pip3 install --no-cache-dir -U -r requirements.txt
