@@ -55,9 +55,9 @@ async def rm_task(task_id=None):
 async def _get_tasks_text():
     await rm_task()  # Clean completed tasks
     if not tasks:
-        return f"{arrow('')} No pending task"
+        return f"{arrow('')} Không có nhiệm vụ đang chờ xử lý"
 
-    text = bold("Tasks") + "\n"
+    text = bold("Nhiệm vụ") + "\n"
 
     for i, task in enumerate(list(tasks.items())):
         indent = w * 4
@@ -68,13 +68,13 @@ async def _get_tasks_text():
 
         id = task[0]
         text += section(
-            f"{indent}Task {i}",
+            f"{indent}Nhiệm vụ {i}",
             body={
-                "Name": t.get_name(),
-                "Task ID": id,
-                "Status": info[0].capitalize(),
-                "Origin": info[2].split("/")[-1].replace(">", ""),
-                "Running since": f"{elapsed}s",
+                "Tên": t.get_name(),
+                "ID tác vụ": id,
+                "Tình trạng": info[0].capitalize(),
+                "Nguồn gốc": info[2].split("/")[-1].replace(">", ""),
+                "Chạy từ lúc": f"{elapsed}s",
             },
             indent=8,
         )
@@ -93,7 +93,7 @@ async def task_list(_, message: Message):
 
     results = await app2.get_inline_bot_results(
         BOT_ID,
-        "tasks",
+        "Nhiệm vụ",
     )
     await app2.send_inline_bot_result(
         message.chat.id,
