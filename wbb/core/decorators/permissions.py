@@ -50,8 +50,8 @@ async def authorised(func, subFunc2, client, message, *args, **kwargs):
 async def unauthorised(message: Message, permission, subFunc2):
     chatID = message.chat.id
     text = (
-        "You don't have the required permission to perform this action."
-        + f"\n**Permission:** __{permission}__"
+        "Bạn không có đủ quyền để thực hiện hành động này."
+        + f"\n**Quyền hạn:** __{permission}__"
     )
     try:
         await message.reply_text(text)
