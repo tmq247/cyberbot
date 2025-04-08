@@ -45,14 +45,14 @@ __MODULE__ = "Autoapprove"
 __HELP__ = """
 command: /autoapprove
 
-This module helps to automatically accept chat join request send by a user through invitation link of your group
+Mô-đun này giúp tự động chấp nhận yêu cầu tham gia trò chuyện được gửi bởi người dùng thông qua liên kết lời mời của nhóm bạn
 
-**Modes:**
-¤ Automatic - Automatically accepts chat join request.
+**Chế độ:**
+¤ Tự động - Tự động chấp nhận yêu cầu tham gia trò chuyện.
 
-¤ Manual - A message will be send to the chat by tagging the admins. The admins can accept or decline the requests.
+¤ Hướng dẫn - Một tin nhắn sẽ được gửi đến cuộc trò chuyện bằng cách gắn thẻ người quản trị. Người quản trị có thể chấp nhận hoặc từ chối yêu cầu.
 
-Use: /clear_pending Command to remove all pending user ID from DB. This will allow the user to send request again.
+Dùng: /clear_pending Lệnh xóa tất cả ID người dùng đang chờ xử lý khỏi DB. Điều này sẽ cho phép người dùng gửi lại yêu cầu.
 """
 
 
@@ -80,13 +80,13 @@ async def approval_command(client, message):
         }
         keyboard = ikb(buttons, 1)
         await message.reply(
-            "**Autoapproval for this chat: Enabled.**", reply_markup=keyboard
+            "**Tự động phê duyệt cho cuộc trò chuyện này: Đã bật.**", reply_markup=keyboard
         )
     else:
-        buttons = {"Turn ON": "approval_on"}
+        buttons = {"Bật": "approval_on"}
         keyboard = ikb(buttons, 1)
         await message.reply(
-            "**Autoapproval for this chat: Disabled.**", reply_markup=keyboard
+            "**Tự động phê duyệt cho cuộc trò chuyện này: Đã tắt.**", reply_markup=keyboard
         )
 
 
@@ -99,7 +99,7 @@ async def approval_cb(client, cb):
     if permission not in permissions:
         if from_user.id not in SUDOERS:
             return await cb.answer(
-                f"You don't have the required permission.\n Permission: {permission}",
+                f"Bạn không có quyền cần thiết.\n Quyền hạn: {permission}",
                 show_alert=True,
             )
     command_parts = cb.data.split("_", 1)
@@ -107,10 +107,10 @@ async def approval_cb(client, cb):
     if option == "off":
         if await approvaldb.count_documents({"chat_id": chat_id}) > 0:
             approvaldb.delete_one({"chat_id": chat_id})
-            buttons = {"Turn ON": "approval_on"}
+            buttons = {"Bật": "approval_on"}
             keyboard = ikb(buttons, 1)
             return await cb.edit_message_text(
-                "**Autoapproval for this chat: Disabled.**",
+                "**Tự động phê duyệt cho cuộc trò chuyện này: Đã tắt.**",
                 reply_markup=keyboard,
             )
     if option == "on":
@@ -129,10 +129,10 @@ async def approval_cb(client, cb):
     )
     chat = await approvaldb.find_one({"chat_id": chat_id})
     mode = chat["mode"].upper()
-    buttons = {"Turn OFF": "approval_off", f"{mode}": f"approval_{switch}"}
+    buttons = {"Tắt": "approval_off", f"{mode}": f"approval_{switch}"}
     keyboard = ikb(buttons, 1)
     await cb.edit_message_text(
-        "**Autoapproval for this chat: Enabled.**", reply_markup=keyboard
+        "**Tự động phê duyệt cho cuộc trò chuyện này: Đã bật.**", reply_markup=keyboard
     )
 
 
@@ -145,9 +145,9 @@ async def clear_pending_command(client, message):
         {"$set": {"pending_users": []}},
     )
     if result.modified_count > 0:
-        await message.reply_text("Cleared pending users.")
+        await message.reply_text("Đã xóa người dùng đang chờ xử lý.")
     else:
-        await message.reply_text("No pending users to clear.")
+        await message.reply_text("Không có người dùng đang chờ xóa.")
 
 
 @app.on_chat_join_request(filters.group)
@@ -177,7 +177,7 @@ async def accept(client, message: ChatJoinRequest):
                     "Decline": f"manual_decline_{user.id}",
                 }
                 keyboard = ikb(buttons, int(2))
-                text = f"**User: {user.mention} has send a request to join our  group. Any admins can accept or decline it.**"
+                text = f"**Người dùng: {user.mention} đã gửi yêu cầu tham gia nhóm của chúng tôi. Bất kỳ quản trị viên nào cũng có thể chấp nhận hoặc từ chối.**"
                 admin_data = [
                     i
                     async for i in app.get_chat_members(
@@ -203,7 +203,7 @@ async def manual(app, cb):
     if permission not in permissions:
         if from_user.id not in SUDOERS:
             return await cb.answer(
-                f"You don't have the required permission.\n Permission: {permission}",
+                f"Bạn không có quyền cần thiết.\n Quyền hạn: {permission}",
                 show_alert=True,
             )
     datas = cb.data.split("_", 2)
