@@ -34,15 +34,15 @@ from wbb.utils.functions import make_carbon
 async def carbon_func(_, message):
     if not message.reply_to_message:
         return await message.reply_text(
-            "Reply to a text message to make carbon."
+            "Trả lời tin nhắn văn bản để tạo ra carbon."
         )
     if not message.reply_to_message.text:
         return await message.reply_text(
-            "Reply to a text message to make carbon."
+            "Trả lời tin nhắn văn bản để tạo ra carbon."
         )
-    m = await message.reply_text("Preparing Carbon")
+    m = await message.reply_text("Chuẩn bị Carbon")
     carbon = await make_carbon(message.reply_to_message.text)
-    await m.edit("Uploading")
+    await m.edit("Đang tải lên")
     await app.send_document(message.chat.id, carbon)
     await m.delete()
     carbon.close()
