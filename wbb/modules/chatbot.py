@@ -43,10 +43,10 @@ from wbb.utils.filter_groups import chatbot_group
 
 __MODULE__ = "ChatBot"
 __HELP__ = """
-/chatbot [ENABLE|DISABLE] To Enable Or Disable ChatBot In Your Chat.
+/chatbot [ENABLE|DISABLE] Để Bật hoặc Tắt ChatBot Trong Trò Chuyện Của Bạn.
 
-There's one module of this available for userbot also
-check userbot module help."""
+Có một mô-đun này có sẵn cho userbot cũng
+kiểm tra trợ giúp mô-đun userbot."""
 
 
 async def chat_bot_toggle(message: Message, is_userbot: bool):
@@ -57,16 +57,16 @@ async def chat_bot_toggle(message: Message, is_userbot: bool):
     if status == "enable":
         if chat_id not in db:
             await add_chatbot(chat_id, is_userbot=is_userbot)
-            text = "Chatbot Enabled!"
+            text = "Đã bật Chatbot!"
             return await eor(message, text=text)
-        await eor(message, text="ChatBot Is Already Enabled.")
+        await eor(message, text="ChatBot đã được kích hoạt.")
     elif status == "disable":
         if chat_id in db:
             await rm_chatbot(chat_id, is_userbot=is_userbot)
-            return await eor(message, text="Chatbot Disabled!")
-        await eor(message, text="ChatBot Is Already Disabled.")
+            return await eor(message, text="Chatbot đã bị vô hiệu hóa!")
+        await eor(message, text="ChatBot đã bị vô hiệu hóa.")
     else:
-        await eor(message, text="**Usage:**\n/chatbot [ENABLE|DISABLE]")
+        await eor(message, text="**Cách dùng:**\n/chatbot [ENABLE|DISABLE]")
 
 
 # Enabled | Disable Chatbot
@@ -76,7 +76,7 @@ async def chat_bot_toggle(message: Message, is_userbot: bool):
 @capture_err
 async def chatbot_status(_, message: Message):
     if len(message.command) != 2:
-        return await eor(message, text="**Usage:**\n/chatbot [ENABLE|DISABLE]")
+        return await eor(message, text="**Cách dùng:**\n/chatbot [ENABLE|DISABLE]")
     await chat_bot_toggle(message, is_userbot=False)
 
 
