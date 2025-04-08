@@ -51,7 +51,7 @@ from wbb.utils.inlinefuncs import keywords_list
 async def clean_db(_, message):
     served_chats = [int(i["chat_id"]) for i in (await get_served_chats())]
     m = await message.reply(
-        f"__**Cleaning database, Might take around {len(served_chats) * 2} seconds.**__",
+        f"__**Dọn dẹp cơ sở dữ liệu, Có thể mất khoảng {len(served_chats) * 2} giây.**__",
     )
     for served_chat in served_chats:
         try:
@@ -62,7 +62,7 @@ async def clean_db(_, message):
         except Exception:
             await remove_served_chat(served_chat)
             served_chats.remove(served_chat)
-    await m.edit("**Database Cleaned.**")
+    await m.edit("**Cơ sở dữ liệu đã được dọn dẹp.**")
 
 
 async def get_total_users_count():
@@ -74,7 +74,7 @@ async def get_total_users_count():
             count = await app.get_chat_members_count(chat_id)
             total_count += count
         except Exception:
-            print(f"Error fetching members count for chat: {chat_id}")
+            print(f"Lỗi khi lấy số lượng thành viên của cuộc trò chuyện: {chat_id}")
     return total_count
 
 
@@ -83,7 +83,7 @@ async def get_total_users_count():
 async def global_stats(_, message):
     m = await app.send_message(
         message.chat.id,
-        text="__**Analysing Stats...**__",
+        text="__**Phân tích số liệu thống kê...**__",
         disable_web_page_preview=True,
     )
 
@@ -118,8 +118,8 @@ async def global_stats(_, message):
     karmas_chats_count = _karmas["chats_count"]
 
     # Contributors/Developers count and commits on github
-    url = "https://api.github.com/repos/thehamkercat/williambutcherbot/contributors"
-    rurl = "https://github.com/thehamkercat/williambutcherbot"
+    url = "https://api.github.com"
+    rurl = "https://github.com"
     developers = await get(url)
     commits = 0
     for developer in developers:
@@ -147,25 +147,25 @@ async def global_stats(_, message):
             privates_ub += 1
 
     msg = f"""
-**Global Stats of {BOT_NAME}**:
-    **{modules_count}** Modules Loaded.
-    **{len(keywords_list)}** Inline Modules Loaded.
-    **{rss_count}** Active RSS Feeds.
-    **{gbans}** Globally banned users.
-    **{filters_count}** Filters, Across **{filters_chats_count}** chats.
-    **{blacklist_filters_count}** Blacklist Filters, Across **{blacklist_filters_chats_count}** chats.
-    **{notes_count}** Notes, Across **{notes_chats_count}** chats.
-    **{warns_count}** Warns, Across **{warns_chats_count}** chats.
-    **{karmas_count}** Karma, Across **{karmas_chats_count}** chats.
-    **{served_users}** Users, Across **{served_chats}** chats.
-    **{total_users}** Total users in chats.
-    **{developers}** Developers And **{commits}** Commits On **[Github]({rurl})**.
+**Thống kê toàn cầu của {BOT_NAME}**:
+    **{modules_count}** Các mô-đun đã tải.
+    **{len(keywords_list)}** Các mô-đun nội tuyến đã được tải.
+    **{rss_count}** Nguồn cấp RSS đang hoạt động.
+    **{gbans}** Người dùng bị cấm trên toàn cầu.
+    **{filters_count}** Bộ lọc, trong **{filters_chats_count}** nhóm.
+    **{blacklist_filters_count}** Bộ lọc danh sách đen, trong **{blacklist_filters_chats_count}** nhóm.
+    **{notes_count}** Ghi chú, trong **{notes_chats_count}** nhóm.
+    **{warns_count}** Cảnh báo, trong **{warns_chats_count}** nhóm.
+    **{karmas_count}** Nghiệp chướng, trong **{karmas_chats_count}** nhóm.
+    **{served_users}** Người sử dụng, trong **{served_chats}** nhóm.
+    **{total_users}** Tổng số người dùng trong cuộc trò chuyện.
+    **{developers}** Các nhà phát triển và **{commits}** Cam kết trên **[Github]({rurl})**.
 
-**Global Stats of {USERBOT_NAME}**:
-    **{total_ub} Dialogs.**
-    **{groups_ub} Groups Joined.**
-    **{channels_ub} Channels Joined.**
+**Thống kê toàn cầu của {USERBOT_NAME}**:
+    **{total_ub} Các hộp thoại.**
+    **{groups_ub} Nhóm đã tham gia.**
+    **{channels_ub} Các kênh đã tham gia.**
     **{bots_ub} Bots.**
-    **{privates_ub} Users.**
+    **{privates_ub} Người sử dụng.**
 """
     await m.edit(msg, disable_web_page_preview=True)
