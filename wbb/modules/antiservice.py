@@ -24,7 +24,7 @@ Plugin to delete service messages in a chat!
 async def anti_service(_, message):
     if len(message.command) != 2:
         return await message.reply_text(
-            "Usage: /antiservice [enable | disable]"
+            "Cách sử dụng: /antiservice [enable | disable]"
         )
     status = message.text.split(None, 1)[1].strip()
     status = status.lower()
@@ -32,16 +32,16 @@ async def anti_service(_, message):
     if status == "enable":
         await antiservice_on(chat_id)
         await message.reply_text(
-            "Enabled AntiService System. I will Delete Service Messages from Now on."
+            "Đã bật Hệ thống AntiService. Tôi sẽ xóa tin nhắn dịch vụ từ bây giờ."
         )
     elif status == "disable":
         await antiservice_off(chat_id)
         await message.reply_text(
-            "Disabled AntiService System. I won't Be Deleting Service Message from Now on."
+            "Đã vô hiệu hóa Hệ thống AntiService. Tôi sẽ không xóa tin nhắn dịch vụ từ bây giờ."
         )
     else:
         await message.reply_text(
-            "Unknown Suffix, Use /antiservice [enable|disable]"
+            "Lệnh không đúng, Dùng /antiservice [enable|disable]"
         )
 
 
