@@ -73,26 +73,26 @@ from wbb.utils.functions import (
 
 __MODULE__ = "Greetings"
 __HELP__ = """
-/captcha [ENABLE|DISABLE] - Enable/Disable captcha.
+/captcha [ENABLE|DISABLE] - Bật/Tắt captcha.
 
-/set_welcome - Reply this to a message containing correct
-format for a welcome message, check end of this message.
+/set_welcome - Trả lời 1 tin nhắn để cài đặt tin nhắn chào mừng
+định dạng cho tin nhắn chào mừng, hãy kiểm tra phần cuối của tin nhắn này.
 
-/del_welcome - Delete the welcome message.
-/get_welcome - Get the welcome message.
+/del_welcome - Xóa tin nhắn chào mừng.
+/get_welcome - Nhận tin nhắn chào mừng hiện tại.
 
 **SET_WELCOME ->**
 
-**To set a photo or gif as welcome message. Add your welcome message as caption to the photo or gif. The caption muse be in the format given below.**
+**Để đặt ảnh hoặc gif làm tin nhắn chào mừng. Thêm tin nhắn chào mừng của bạn làm chú thích cho ảnh hoặc gif. Chú thích phải theo định dạng được đưa ra bên dưới.**
 
-For text welcome message just send the text. Then reply with the command 
+Đối với tin nhắn chào mừng bằng văn bản, chỉ cần gửi văn bản. Sau đó trả lời bằng lệnh
 
-The format should be something like below.
+Định dạng phải giống như bên dưới.
 
 ```
 **Hi** {name} [{id}] Welcome to {chat}
 
-~ #This separater (~) should be there between text and buttons, remove this comment also
+~ #Bộ tách này (~) nên có ở giữa văn bản và các nút, hãy xóa bình luận này
 
 button=[Duck, https://duckduckgo.com]
 button2=[Github, https://github.com]
@@ -100,7 +100,7 @@ button2=[Github, https://github.com]
 
 **NOTES ->**
 
-Checkout /markdownhelp to know more about formattings and other syntax.
+Kiểm tra /markdownhelp để biết thêm về định dạng và cú pháp khác.
 """
 
 answers_dicc = []
@@ -135,15 +135,15 @@ async def handle_new_member(member, chat):
                 await chat.ban_member(member.id)
                 return await app.send_message(
                     chat.id,
-                    f"**User {member.mention} was Fed Banned.\n\nReason: {reason}.\nDate: {date}.**",
+                    f"**Người dùng {member.mention}đã bị cấm trong liên đoàn.\n\nLý do: {reason}.\nNgày: {date}.**",
                 )
         if await is_gbanned_user(member.id):
             await chat.ban_member(member.id)
             await app.send_message(
                 chat.id,
-                f"{member.mention} was globally banned, and got removed,"
-                + " if you think this is a false gban, you can appeal"
-                + " for this ban in support chat.",
+                f"{member.mention} đã bị cấm trên toàn cầu và đã bị xóa,"
+                + " nếu bạn nghĩ đây là gban giả, bạn có thể kháng cáo"
+                + " cho lệnh cấm này trong trò chuyện hỗ trợ.",
             )
             return
         if member.is_bot:
@@ -161,8 +161,8 @@ async def handle_new_member(member, chat):
         await chat.restrict_member(member.id, ChatPermissions())
         text = (
             f"{(member.mention())} Are you human?\n"
-            f"Solve this captcha in {WELCOME_DELAY_KICK_SEC} "
-            "seconds and 4 attempts or you'll be kicked."
+            f"Giải quyết captcha này trong {WELCOME_DELAY_KICK_SEC} "
+            "giây và 4 lần thử hoặc bạn sẽ bị đá."
         )
     except ChatAdminRequired:
         return
@@ -297,9 +297,9 @@ async def send_welcome_message(chat: Chat, user_id: int, delete: bool = False):
 
 @app.on_callback_query(filters.regex("pressed_button"))
 async def callback_query_welcome_button(_, callback_query):
-    """After the new member presses the correct button,
-    set his permissions to chat permissions,
-    delete button message and join message.
+    """Sau khi thành viên mới nhấn nút đúng,
+thiết lập quyền của mình thành quyền trò chuyện,
+xóa tin nhắn nút và tham gia tin nhắn.
     """
     global answers_dicc
     data = callback_query.data
@@ -322,14 +322,14 @@ async def callback_query_welcome_button(_, callback_query):
 
     if not (correct_answer and keyboard):
         return await callback_query.answer(
-            "Something went wrong, Rejoin the " "chat!"
+            "Có gì đó không ổn, hãy tham gia lại " " cuộc trò chuyện!"
         )
 
     if pending_user_id != pressed_user_id:
-        return await callback_query.answer("This is not for you")
+        return await callback_query.answer("Điều này không dành cho bạn")
 
     if answer != correct_answer:
-        await callback_query.answer("Yeah, It's Wrong.")
+        await callback_query.answer("Vâng, nó sai rồi.")
         for iii in answers_dicc:
             if (
                 iii["user_id"] == pending_user_id
@@ -357,7 +357,7 @@ async def callback_query_welcome_button(_, callback_query):
             reply_markup=keyboard,
         )
 
-    await callback_query.answer("Captcha passed successfully!")
+    await callback_query.answer("Đã xác nhận captcha thành công!")
     await button_message.chat.unban_member(pending_user_id)
     await button_message.delete()
 
@@ -382,8 +382,8 @@ async def callback_query_welcome_button(_, callback_query):
 async def kick_restricted_after_delay(
     delay, button_message: Message, user: User
 ):
-    """If the new member is still restricted after the delay, delete
-    button message and join message and then kick him
+    """Nếu thành viên mới vẫn bị hạn chế sau khi trì hoãn, hãy xóa
+tin nhắn nút và tham gia tin nhắn rồi đá anh ta
     """
     global answers_dicc
     await asyncio.sleep(delay)
@@ -413,7 +413,7 @@ async def _ban_restricted_user_until_date(
 @app.on_message(filters.command("captcha") & ~filters.private)
 @adminsOnly("can_restrict_members")
 async def captcha_state(_, message):
-    usage = "**Usage:**\n/captcha [ENABLE|DISABLE]"
+    usage = "**Cách dùng:**\n/captcha [ENABLE|DISABLE]"
     if len(message.command) != 2:
         return await message.reply_text(usage)
 
@@ -422,10 +422,10 @@ async def captcha_state(_, message):
     state = state.lower()
     if state == "enable":
         await captcha_on(chat_id)
-        await message.reply_text("Enabled Captcha For New Users.")
+        await message.reply_text("Đã bật Captcha cho người dùng mới.")
     elif state == "disable":
         await captcha_off(chat_id)
-        await message.reply_text("Disabled Captcha For New Users.")
+        await message.reply_text("Vô hiệu hóa Captcha cho người dùng mới.")
     else:
         await message.reply_text(usage)
 
@@ -436,7 +436,7 @@ async def captcha_state(_, message):
 @app.on_message(filters.command("set_welcome") & ~filters.private)
 @adminsOnly("can_change_info")
 async def set_welcome_func(_, message):
-    usage = "You need to reply to a text, gif or photo to set it as greetings.\n\nNotes: caption required for gif and photo."
+    usage = "Bạn cần trả lời tin nhắn, gif hoặc ảnh để đặt làm lời chào.\n\nLưu ý: cần có chú thích cho gif và ảnh."
     key = InlineKeyboardMarkup(
         [
             [
@@ -487,12 +487,12 @@ async def set_welcome_func(_, message):
             )
         else:
             return await message.reply_text(
-                "Wrong formatting, check the help section.\n\n**Usage:**\nText: `Text`\nText + Buttons: `Text ~ Buttons`",
+                "Định dạng sai, hãy kiểm tra phần trợ giúp.\n\n**Cách dùng:**\nVăn bản: `văn bản`\nVăn bản + Nút: `Văn bản ~ Nút`",
                 reply_markup=key,
             )
     except UnboundLocalError:
         return await message.reply_text(
-            "**Only Text, Gif and Photo welcome message are supported.**"
+            "**Chỉ hỗ trợ tin nhắn chào mừng dạng Văn bản, Gif và Ảnh.**"
         )
 
 
@@ -501,7 +501,7 @@ async def set_welcome_func(_, message):
 async def del_welcome_func(_, message):
     chat_id = message.chat.id
     await del_welcome(chat_id)
-    await message.reply_text("Welcome message has been deleted.")
+    await message.reply_text("Tin nhắn chào mừng đã bị xóa.")
 
 
 @app.on_message(filters.command("get_welcome") & ~filters.private)
@@ -510,14 +510,14 @@ async def get_welcome_func(_, message):
     chat = message.chat
     welcome, raw_text, file_id = await get_welcome(chat.id)
     if not raw_text:
-        return await message.reply_text("No welcome message set.")
+        return await message.reply_text("Không có tin nhắn chào mừng nào được thiết lập.")
     if not message.from_user:
         return await message.reply_text(
-            "You're anon, can't send welcome message."
+            "Bạn đang ẩn danh, không thể gửi tin nhắn chào mừng."
         )
 
     await send_welcome_message(chat, message.from_user.id)
 
     await message.reply_text(
-        f'Welcome: {welcome}\n\nFile_id: `{file_id}`\n\n`{raw_text.replace("`", "")}`'
+        f'Lời chào mừng: {welcome}\n\nFile_id: `{file_id}`\n\n`{raw_text.replace("`", "")}`'
     )
