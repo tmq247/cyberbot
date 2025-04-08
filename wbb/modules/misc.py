@@ -40,61 +40,58 @@ from wbb.utils.pastebin import paste
 __MODULE__ = "Misc"
 __HELP__ = """
 /asq
-    Ask a question
-
+    Đặt một câu hỏi
 /commit
-    Generate Funny Commit Messages
+    Tạo tin nhắn cam kết vui nhộn
 
 /runs
-    Idk Test Yourself
-
+    Tôi không biết bạn tự kiểm tra nhé
 /id
-    Get Chat_ID or User_ID
+    Lấy Chat_ID hoặc User_ID
 
-/random [Length]
-    Generate Random Complex Passwords
-
-/cheat [Language] [Query]
-    Get Programming Related Help
+/random [Chiều dài]
+    Tạo mật khẩu phức tạp ngẫu nhiên
+/cheat [Ngôn ngữ] [Truy vấn]
+    Nhận trợ giúp liên quan đến lập trình
 
 /tr [LANGUAGE_CODE]
-    Translate A Message
+    Dịch một tin nhắn
     Ex: /tr en
 
 /json [URL]
-    Get parsed JSON response from a rest API.
+    Nhận phản hồi JSON đã phân tích cú pháp từ REST API.
 
 /arq
-    Statistics Of ARQ API.
+    Thống kê của API ARQ.
 
-/webss | .webss [URL] [FULL_SIZE?, use (y|yes|true) to get full size image. (optional)]
-    Take A Screenshot Of A Webpage
+/webss | .webss [URL] [FULL_SIZE?, dùng (y|yes|true) để có được hình ảnh kích thước đầy đủ. (không bắt buộc)]
+    Chụp Ảnh Màn Hình Của Một Trang Web
 
 /reverse
-    Reverse search an image.
+    Tìm kiếm ngược hình ảnh.
 
 /carbon
-    Make Carbon from code.
+    Tạo Carbon từ mã.
 
 /tts
-    Convert Text To Speech.
+    Chuyển đổi văn bản thành giọng nói.
 
 /autocorrect [Reply to a message]
     Autocorrects the text in replied message.
 
-/pdf [Reply to an image (as document) or a group of images.]
-    Convert images to PDF, helpful for online classes.
+/pdf [Trả lời một hình ảnh (dưới dạng tài liệu) hoặc một nhóm hình ảnh.]
+    Chuyển đổi hình ảnh sang PDF, hữu ích cho các lớp học trực tuyến.
 
 /markdownhelp
-    Sends mark down and formatting help.
+    Gửi mark down và trợ giúp định dạng.
 
 /backup
-    Backup database
+    Sao lưu cơ sở dữ liệu
 
 /ping
-    Check ping of all 5 DCs.
+    Kiểm tra ping của tất cả 5 DC.
     
-#RTFM - Tell noobs to read the manual
+#RTFM - Yêu cầu người mới đọc hướng dẫn
 """
 
 ASQ_LOCK = Lock()
@@ -109,7 +106,7 @@ PING_LOCK = Lock()
 )
 @app.on_message(filters.command("ping"))
 async def ping_handler(_, message):
-    m = await eor(message, text="Pinging datacenters...")
+    m = await eor(message, text="Ping các trung tâm dữ liệu...")
     async with PING_LOCK:
         ips = {
             "dc1": "149.154.175.53",
@@ -141,7 +138,7 @@ async def ping_handler(_, message):
 
 @app.on_message(filters.command("asq"))
 async def asq(_, message):
-    err = "Reply to text message or pass the question as argument"
+    err = "Trả lời tin nhắn văn bản hoặc chuyển câu hỏi thành đối số"
     if message.reply_to_message:
         if not message.reply_to_message.text:
             return await message.reply(err)
@@ -167,7 +164,7 @@ async def rtfm(_, message):
     if not message.reply_to_message:
         return await message.reply_text("Reply To A Message lol")
     await message.reply_to_message.reply_text(
-        "Are You Lost? READ THE FUCKING DOCS!"
+        "Bạn bị lạc à? ĐỌC TÀI LIỆU ĐÓ ĐI!"
     )
 
 
@@ -189,8 +186,8 @@ async def getid(client, message):
     message_id = message.id
     reply = message.reply_to_message
 
-    text = f"**[Message ID:]({message.link})** `{message_id}`\n"
-    text += f"**[Your ID:](tg://user?id={your_id})** `{your_id}`\n"
+    text = f"**[ID tin nhắn:]({message.link})** `{message_id}`\n"
+    text += f"**[ID của bạn:](tg://user?id={your_id})** `{your_id}`\n"
 
     if not message.command:
         message.command = message.text.split()
@@ -199,15 +196,15 @@ async def getid(client, message):
         try:
             split = message.text.split(None, 1)[1].strip()
             user_id = (await client.get_users(split)).id
-            text += f"**[User ID:](tg://user?id={user_id})** `{user_id}`\n"
+            text += f"**[ID người dùng:](tg://user?id={user_id})** `{user_id}`\n"
         except Exception:
-            return await eor(message, text="This user doesn't exist.")
+            return await eor(message, text="Người dùng này không tồn tại.")
 
-    text += f"**[Chat ID:](https://t.me/{chat.username})** `{chat.id}`\n\n"
+    text += f"**[ID trò chuyện:](https://t.me/{chat.username})** `{chat.id}`\n\n"
     if not getattr(reply, "empty", True):
         id_ = reply.from_user.id if reply.from_user else reply.sender_chat.id
-        text += f"**[Replied Message ID:]({reply.link})** `{reply.id}`\n"
-        text += f"**[Replied User ID:](tg://user?id={id_})** `{id_}`"
+        text += f"**[ID tin nhắn đã trả lời:]({reply.link})** `{reply.id}`\n"
+        text += f"**[ID người dùng đã trả lời:](tg://user?id={id_})** `{id_}`"
 
     await eor(
         message,
@@ -223,7 +220,7 @@ async def getid(client, message):
 async def random(_, message):
     if len(message.command) != 2:
         return await message.reply_text(
-            '"/random" Needs An Argurment.' " Ex: `/random 5`"
+            '"/random" Cần Một Số.' " Ex: `/random 5`"
         )
     length = message.text.split(None, 1)[1]
     try:
@@ -234,10 +231,10 @@ async def random(_, message):
             )
             await message.reply_text(f"`{password}`")
         else:
-            await message.reply_text("Specify A Length Between 1-1000")
+            await message.reply_text("Chỉ định độ dài từ 1-1000")
     except ValueError:
         await message.reply_text(
-            "Strings Won't Work!, Pass A Positive Integer Less Than 1000"
+            "Chuỗi không hoạt động!, Truyền số nguyên dương nhỏ hơn 1000"
         )
 
 
@@ -250,15 +247,15 @@ async def tr(_, message):
     lang = message.text.split(None, 1)[1]
     if not message.reply_to_message or not lang:
         return await message.reply_text(
-            "Reply to a message with /tr [language code]"
-            + "\nGet supported language list from here -"
+            "Trả lời tin nhắn với /tr [language code]"
+            + "\nNhận danh sách ngôn ngữ được hỗ trợ từ đây -"
             + " https://py-googletrans.readthedocs.io/en"
             + "/latest/#googletrans-languages"
         )
     reply = message.reply_to_message
     text = reply.text or reply.caption
     if not text:
-        return await message.reply_text("Reply to a text to translate it")
+        return await message.reply_text("Trả lời một văn bản để dịch nó")
     result = await arq.translate(text, lang)
     if not result.ok:
         return await message.reply_text(result.result)
@@ -271,7 +268,7 @@ async def json_fetch(_, message):
     if len(message.command) != 2:
         return await message.reply_text("/json [URL]")
     url = message.text.split(None, 1)[1]
-    m = await message.reply_text("Fetching")
+    m = await message.reply_text("Đang lấy")
     try:
         data = await get(url)
         data = await json_prettify(data)
@@ -290,5 +287,5 @@ async def json_fetch(_, message):
 @app.on_message(filters.command(["kickme", "banme"]))
 async def kickbanme(_, message):
     await message.reply_text(
-        "Haha, it doesn't work that way, You're stuck with everyone here."
+        "Haha, nó không hoạt động theo cách đó, bạn bị kẹt với mọi người ở đây."
     )
