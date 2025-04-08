@@ -35,7 +35,7 @@ from wbb import BOT_ID, SUDOERS, USERBOT_PREFIX, app2
 )
 async def alive_command_func(_, message):
     await message.delete()
-    results = await app2.get_inline_bot_results(BOT_ID, "alive")
+    results = await app2.get_inline_bot_results(BOT_ID, "vẫn hoạt động")
     await app2.send_inline_bot_result(
         message.chat.id, results.query_id, results.results[0].id
     )
