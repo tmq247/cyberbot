@@ -45,7 +45,7 @@ from wbb.utils.functions import extract_user
     & SUDOERS
 )
 async def change_profile(_, message: Message):
-    m = await eor(message, text="Anonymizing...")
+    m = await eor(message, text="Ẩn danh...")
     try:
         image_resp, name_resp = await gather(
             session.get("https://thispersondoesnotexist.com/image"),
@@ -64,7 +64,7 @@ async def change_profile(_, message: Message):
     except Exception as e:
         e = format_exc()
         err = await app.send_message(LOG_GROUP_ID, text=f"`{e}`")
-        return await m.edit(f"**Error**: {err.link}")
+        return await m.edit(f"**Lỗi**: {err.link}")
     await m.edit(f"[Anonymized.](tg://user?id={USERBOT_ID})")
     image.close()
 
@@ -79,11 +79,11 @@ async def impersonate(_, message: Message):
     user_id = await extract_user(message)
 
     if not user_id:
-        return await eor(message, text="Can't impersonate an anonymous user.")
+        return await eor(message, text="Không thể mạo danh người dùng ẩn danh.")
     if user_id == USERBOT_ID:
-        return eor(message, text="Can't impersonate myself.")
+        return eor(message, text="Không thể mạo danh chính mình.")
 
-    m = await eor(message, text="Processing...")
+    m = await eor(message, text="Đang Xử Lý...")
 
     try:
         user: Chat = await app2.get_chat(user_id)
@@ -99,6 +99,6 @@ async def impersonate(_, message: Message):
     except Exception as e:
         e = format_exc()
         err = await app.send_message(LOG_GROUP_ID, text=f"`{e}`")
-        return await m.edit(f"**Error**: {err.link}")
+        return await m.edit(f"**Lỗi**: {err.link}")
 
-    await m.edit(f"[Done](tg://user?id={USERBOT_ID})")
+    await m.edit(f"[Xong](tg://user?id={USERBOT_ID})")
