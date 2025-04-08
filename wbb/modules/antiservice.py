@@ -13,7 +13,7 @@ from wbb.utils.dbfunctions import (
 
 __MODULE__ = "AntiService"
 __HELP__ = """
-Plugin to delete service messages in a chat!
+Plugin xóa tin nhắn dịch vụ trong cuộc trò chuyện!
 
 /antiservice [enable|disable]
 """
