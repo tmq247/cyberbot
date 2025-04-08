@@ -129,12 +129,12 @@ async def chat_info_func(_, message: Message):
         chat = message.chat.id
         if chat == message.from_user.id:
             return await message.reply_text(
-                "**Usage:**/chat_info [USERNAME|ID]"
+                "**Cách dùng:**/chat_info [USERNAME|ID]"
             )
     else:
         chat = splited[1]
     try:
-        m = await message.reply_text("Processing")
+        m = await message.reply_text("Đang xử lý")
 
         info_caption, photo_id = await get_chat_info(chat)
         if not photo_id:
