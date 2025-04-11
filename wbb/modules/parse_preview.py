@@ -79,4 +79,4 @@ async def parse(_, message: Message):
             caption=text,
         )
 
-    await m_.edit(text, disable_web_page_preview=True)
+    await m_.edit(text, link_preview_options=True)
