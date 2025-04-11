@@ -36,7 +36,7 @@ from wbb.core.decorators.errors import capture_err
 from wbb.utils.dbfeds import *
 from wbb.utils.functions import extract_user, extract_user_and_reason
 
-__MODULE__ = "federation"
+__MODULE__ = "Federation"
 __HELP__ = """
 Mọi thứ đều vui vẻ, cho đến khi một kẻ gửi thư rác bắt đầu xâm nhập vào nhóm của bạn và bạn phải chặn hắn. Sau đó, bạn cần bắt đầu cấm nhiều hơn, nhiều hơn nữa và điều đó thật đau đớn.
 Nhưng sau đó, bạn có nhiều nhóm và bạn không muốn kẻ gửi thư rác này ở trong một trong các nhóm của mình - bạn có thể xử lý như thế nào? Bạn có phải chặn thủ công trong tất cả các nhóm của mình không?\n
