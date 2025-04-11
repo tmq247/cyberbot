@@ -122,7 +122,7 @@ home_keyboard_pm = InlineKeyboardMarkup(
             ),
             InlineKeyboardButton(
                 text="Repo 🛠",
-                url="@",
+                url="http://t.me/COIHAYCOC",
             ),
         ],
         [
@@ -131,7 +131,7 @@ home_keyboard_pm = InlineKeyboardMarkup(
                 callback_data="stats_callback",
             ),
             InlineKeyboardButton(
-                text="Support 👨", url="http://t.me/"
+                text="Support 👨", url="http://t.me/COIHAYCOC"
             ),
         ],
         [
@@ -144,7 +144,7 @@ home_keyboard_pm = InlineKeyboardMarkup(
 )
 
 home_text_pm = (
-    f"Xin chào! Tên tôi là {BOT_NAME}. Tôi là bot quản lý nhóm "
+    f"Xin chào! Tên tôi là {BOT_NAME}. Tôi là bot quản lý nhóm"
     + "với nhiều tính năng hữu ích, hãy thử "
     + "thêm tôi vào nhóm của bạn."
 )
@@ -158,7 +158,7 @@ keyboard = InlineKeyboardMarkup(
             ),
             InlineKeyboardButton(
                 text="Repo 🛠",
-                url="@",
+                url="http://t.me/COIHAYCOC",
             ),
         ],
         [
@@ -166,7 +166,7 @@ keyboard = InlineKeyboardMarkup(
                 text="System Stats 💻",
                 callback_data="stats_callback",
             ),
-            InlineKeyboardButton(text="Hỗ trợ 👨", url="t.me"),
+            InlineKeyboardButton(text="Hỗ trợ 👨", url="http://t.me/COIHAYCOC"),
         ],
     ]
 )
@@ -186,7 +186,7 @@ FED_MARKUP = InlineKeyboardMarkup(
             InlineKeyboardButton("User Commands", callback_data="fed_user"),
         ],
         [
-            InlineKeyboardButton("Back", callback_data="help_back"),
+            InlineKeyboardButton("Quay lại", callback_data="help_back"),
         ],
     ]
 )
