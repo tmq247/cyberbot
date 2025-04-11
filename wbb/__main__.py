@@ -228,7 +228,7 @@ async def start(_, message):
             await message.reply(
                 MARKDOWN,
                 parse_mode=ParseMode.HTML,
-                disable_web_page_preview=True,
+                link_preview_options=True,
             )
         elif "_" in name:
             module = name.split("_", 1)[1]
@@ -240,14 +240,14 @@ async def start(_, message):
                 return await message.reply(
                     text=text,
                     reply_markup=FED_MARKUP,
-                    disable_web_page_preview=True,
+                    link_preview_options=True,
                 )
             await message.reply(
                 text,
                 reply_markup=InlineKeyboardMarkup(
                     [[InlineKeyboardButton("Quay lại", callback_data="help_back")]]
                 ),
-                disable_web_page_preview=True,
+                link_preview_options=True,
             )
         elif name == "help":
             text, keyb = await help_parser(message.from_user.first_name)
@@ -299,7 +299,7 @@ async def help_command(_, message):
                     f"Đây là sự trợ giúp cho **{HELPABLE[name].__MODULE__}**:\n"
                     + HELPABLE[name].__HELP__
                 )
-                await message.reply(text, disable_web_page_preview=True)
+                await message.reply(text, link_preview_options=True)
             else:
                 text, help_keyboard = await help_parser(
                     message.from_user.first_name
@@ -307,14 +307,14 @@ async def help_command(_, message):
                 await message.reply(
                     text,
                     reply_markup=help_keyboard,
-                    disable_web_page_preview=True,
+                    link_preview_options=True,
                 )
         else:
             text, help_keyboard = await help_parser(
                 message.from_user.first_name
             )
             await message.reply(
-                text, reply_markup=help_keyboard, disable_web_page_preview=True
+                text, reply_markup=help_keyboard, link_preview_options=True
             )
     return
 
@@ -383,14 +383,14 @@ General command are:
             return await query.message.edit(
                 text=text,
                 reply_markup=FED_MARKUP,
-                disable_web_page_preview=True,
+                link_preview_options=True,
             )
         await query.message.edit(
             text=text,
             reply_markup=InlineKeyboardMarkup(
                 [[InlineKeyboardButton("Quay lại", callback_data="help_back")]]
             ),
-            disable_web_page_preview=True,
+            link_preview_options=True,
         )
     elif home_match:
         await app.send_message(
@@ -406,7 +406,7 @@ General command are:
             reply_markup=InlineKeyboardMarkup(
                 paginate_modules(curr_page - 1, HELPABLE, "help")
             ),
-            disable_web_page_preview=True,
+            link_preview_options=True,
         )
 
     elif next_match:
@@ -416,7 +416,7 @@ General command are:
             reply_markup=InlineKeyboardMarkup(
                 paginate_modules(next_page + 1, HELPABLE, "help")
             ),
-            disable_web_page_preview=True,
+            link_preview_options=True,
         )
 
     elif back_match:
@@ -425,7 +425,7 @@ General command are:
             reply_markup=InlineKeyboardMarkup(
                 paginate_modules(0, HELPABLE, "help")
             ),
-            disable_web_page_preview=True,
+            link_preview_options=True,
         )
 
     elif create_match:
@@ -433,7 +433,7 @@ General command are:
         await query.message.edit(
             text=text,
             reply_markup=keyboard,
-            disable_web_page_preview=True,
+            link_preview_options=True,
         )
 
     return await client.answer_callback_query(query.id)
