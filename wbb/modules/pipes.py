@@ -33,28 +33,28 @@ __MODULE__ = "Pipes"
 __HELP__ = """
 **THIS MODULE IS ONLY FOR DEVS**
 
-Use this module to create a pipe that will forward messages of one chat/channel to another.
+Sử dụng mô-đun này để tạo đường dẫn chuyển tiếp tin nhắn của một cuộc trò chuyện/kênh này sang cuộc trò chuyện/kênh khác.
 
 
 /activate_pipe [FROM_CHAT_ID] [TO_CHAT_ID] [BOT|USERBOT]
 
-    Active a pipe.
+   Kích hoạt một chuyển tiếp.
 
-    choose 'BOT' or 'USERBOT' according to your needs,
-    this will decide which client will fetch the
-    message from 'FROM_CHAT'.
+chọn 'BOT' hoặc 'USERBOT' theo nhu cầu của bạn,
+điều này sẽ quyết định máy khách nào sẽ lấy
+tin nhắn từ 'FROM_CHAT'.
 
 
 /deactivate_pipe [FROM_CHAT_ID]
-    Deactivete a pipe.
+    Vô hiệu hóa chuyển tiếp.
 
 
 /show_pipes
-    Show all the active pipes.
+    Hiển thị tất cả các chuyển tiếp đang hoạt động.
 
 **NOTE:**
-    These pipes are only temporary, and will be destroyed
-    on restart.
+    Những chuyển tiếp này chỉ là tạm thời và sẽ bị phá hủy
+khi khởi động lại.
 """
 pipes_list_bot = {}
 pipes_list_userbot = {}
