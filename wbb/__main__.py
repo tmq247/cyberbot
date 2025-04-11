@@ -379,7 +379,7 @@ General command are:
             )
             + HELPABLE[module].__HELP__
         )
-        if module == "federation":
+        if module == "Liên đoàn":
             return await query.message.edit(
                 text=text,
                 reply_markup=FED_MARKUP,
