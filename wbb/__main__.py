@@ -236,7 +236,7 @@ async def start(_, message):
                 f"Đây là sự trợ giúp cho **{HELPABLE[module].__MODULE__}**:\n"
                 + HELPABLE[module].__HELP__
             )
-            if module == "federation":
+            if module == "Liên đoàn":
                 return await message.reply(
                     text=text,
                     reply_markup=FED_MARKUP,
