@@ -118,11 +118,11 @@ home_keyboard_pm = InlineKeyboardMarkup(
     [
         [
             InlineKeyboardButton(
-                text="Commands ❓", callback_data="bot_commands"
+                text="Lệnh ❓", callback_data="bot_commands"
             ),
             InlineKeyboardButton(
                 text="Repo 🛠",
-                url="https://github.com/thehamkercat/WilliamButcherBot",
+                url="@",
             ),
         ],
         [
@@ -131,12 +131,12 @@ home_keyboard_pm = InlineKeyboardMarkup(
                 callback_data="stats_callback",
             ),
             InlineKeyboardButton(
-                text="Support 👨", url="http://t.me/WBBSupport"
+                text="Support 👨", url="http://t.me/"
             ),
         ],
         [
             InlineKeyboardButton(
-                text="Add Me To Your Group 🎉",
+                text="Thêm tôi vào nhóm của bạn 🎉",
                 url=f"http://t.me/{BOT_USERNAME}?startgroup=new",
             )
         ],
@@ -144,21 +144,21 @@ home_keyboard_pm = InlineKeyboardMarkup(
 )
 
 home_text_pm = (
-    f"Hey there! My name is {BOT_NAME}. I can manage your "
-    + "group with lots of useful features, feel free to "
-    + "add me to your group."
+    f"Xin chào! Tên tôi là {BOT_NAME}. Tôi là bot quản lý nhóm "
+    + "với nhiều tính năng hữu ích, hãy thử "
+    + "thêm tôi vào nhóm của bạn."
 )
 
 keyboard = InlineKeyboardMarkup(
     [
         [
             InlineKeyboardButton(
-                text="Help ❓",
+                text="Trợ giúp ❓",
                 url=f"t.me/{BOT_USERNAME}?start=help",
             ),
             InlineKeyboardButton(
                 text="Repo 🛠",
-                url="https://github.com/thehamkercat/WilliamButcherBot",
+                url="@",
             ),
         ],
         [
@@ -166,7 +166,7 @@ keyboard = InlineKeyboardMarkup(
                 text="System Stats 💻",
                 callback_data="stats_callback",
             ),
-            InlineKeyboardButton(text="Support 👨", url="t.me/WBBSupport"),
+            InlineKeyboardButton(text="Hỗ trợ 👨", url="t.me"),
         ],
     ]
 )
@@ -196,7 +196,7 @@ FED_MARKUP = InlineKeyboardMarkup(
 async def start(_, message):
     if message.chat.type != ChatType.PRIVATE:
         return await message.reply(
-            "Pm Me For More Details.", reply_markup=keyboard
+            "Nhắn tin riêng cho tôi để biết thêm chi tiết.", reply_markup=keyboard
         )
     if len(message.text.split()) > 1:
         user = await app.get_users(message.from_user.id)
@@ -206,7 +206,7 @@ async def start(_, message):
             chat_id = match.group(1)
             user_id = message.from_user.id
             chat = await app.get_chat(int(chat_id))
-            text = f"**The rules for `{chat.title}` are:\n\n**"
+            text = f"**Các quy tắc cho `{chat.title}` are:\n\n**"
             rules = await get_rules(int(chat_id))
             if rules:
                 text = text + rules
@@ -221,8 +221,8 @@ async def start(_, message):
             else:
                 return await app.send_message(
                     user_id,
-                    "The group admins haven't set any rules for this chat yet. "
-                    "This probably doesn't mean it's lawless though...!",
+                    "Người quản lý nhóm vẫn chưa đặt bất kỳ quy tắc nào cho cuộc trò chuyện này. "
+                    "Tuy nhiên, điều này có lẽ không có nghĩa là nó vô luật pháp...!",
                 )
         if name == "mkdwn_help":
             await message.reply(
@@ -233,7 +233,7 @@ async def start(_, message):
         elif "_" in name:
             module = name.split("_", 1)[1]
             text = (
-                f"Here is the help for **{HELPABLE[module].__MODULE__}**:\n"
+                f"Đây là sự trợ giúp cho **{HELPABLE[module].__MODULE__}**:\n"
                 + HELPABLE[module].__HELP__
             )
             if module == "federation":
@@ -245,7 +245,7 @@ async def start(_, message):
             await message.reply(
                 text,
                 reply_markup=InlineKeyboardMarkup(
-                    [[InlineKeyboardButton("back", callback_data="help_back")]]
+                    [[InlineKeyboardButton("Quay lại", callback_data="help_back")]]
                 ),
                 disable_web_page_preview=True,
             )
@@ -273,30 +273,30 @@ async def help_command(_, message):
                     [
                         [
                             InlineKeyboardButton(
-                                text="Click here",
+                                text="Nhấp vào đây",
                                 url=f"t.me/{BOT_USERNAME}?start=help_{name}",
                             )
                         ],
                     ]
                 )
                 await message.reply(
-                    f"Click on the below button to get help about {name}",
+                    f"Nhấp vào nút bên dưới để nhận trợ giúp về {name}",
                     reply_markup=key,
                 )
             else:
                 await message.reply(
-                    "PM Me For More Details.", reply_markup=keyboard
+                    "Nhắn tin riêng cho tôi để biết thêm chi tiết.", reply_markup=keyboard
                 )
         else:
             await message.reply(
-                "Pm Me For More Details.", reply_markup=keyboard
+                "Nhắn tin riêng cho tôi để biết thêm chi tiết.", reply_markup=keyboard
             )
     else:
         if len(message.command) >= 2:
             name = (message.text.split(None, 1)[1]).replace(" ", "_").lower()
             if str(name) in HELPABLE:
                 text = (
-                    f"Here is the help for **{HELPABLE[name].__MODULE__}**:\n"
+                    f"Đây là sự trợ giúp cho **{HELPABLE[name].__MODULE__}**:\n"
                     + HELPABLE[name].__HELP__
                 )
                 await message.reply(text, disable_web_page_preview=True)
@@ -323,10 +323,10 @@ async def help_parser(name, keyboard=None):
     if not keyboard:
         keyboard = InlineKeyboardMarkup(paginate_modules(0, HELPABLE, "help"))
     return (
-        """Hello {first_name}, My name is {bot_name}.
-I'm a group management bot with some useful features.
-You can choose an option below, by clicking a button.
-Also you can ask anything in Support Group.
+        """Xin chào {first_name}, Tên tôi là {bot_name}.
+Tôi là một bot quản lý nhóm với một số tính năng hữu ích.
+Bạn có thể chọn một tùy chọn bên dưới bằng cách nhấp vào nút.
+Ngoài ra bạn có thể hỏi bất cứ điều gì trong Nhóm hỗ trợ.
 """.format(
             first_name=name,
             bot_name=BOT_NAME,
@@ -362,10 +362,10 @@ async def help_button(client, query):
     back_match = re.match(r"help_back", query.data)
     create_match = re.match(r"help_create", query.data)
     top_text = f"""
-Hello {query.from_user.first_name}, My name is {BOT_NAME}.
-I'm a group management bot with some useful features.
-You can choose an option below, by clicking a button.
-Also you can ask anything in Support Group.
+Xin chào {query.from_user.first_name}, Tên tôi là {BOT_NAME}.
+Tôi là một bot quản lý nhóm với một số tính năng hữu ích.
+Bạn có thể chọn một tùy chọn bên dưới bằng cách nhấp vào nút.
+Ngoài ra bạn có thể hỏi bất cứ điều gì trong Nhóm hỗ trợ.
 
 General command are:
  - /start: Start the bot
@@ -375,7 +375,7 @@ General command are:
         module = (mod_match.group(1)).replace(" ", "_")
         text = (
             "{} **{}**:\n".format(
-                "Here is the help for", HELPABLE[module].__MODULE__
+                "Đây là sự trợ giúp cho", HELPABLE[module].__MODULE__
             )
             + HELPABLE[module].__HELP__
         )
@@ -388,7 +388,7 @@ General command are:
         await query.message.edit(
             text=text,
             reply_markup=InlineKeyboardMarkup(
-                [[InlineKeyboardButton("back", callback_data="help_back")]]
+                [[InlineKeyboardButton("Quay lại", callback_data="help_back")]]
             ),
             disable_web_page_preview=True,
         )
