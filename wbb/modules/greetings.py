@@ -162,7 +162,7 @@ async def handle_new_member(member, chat):
         text = (
             f"{(member.mention())} Are you human?\n"
             f"Giải quyết captcha này trong {WELCOME_DELAY_KICK_SEC} "
-            "giây và 4 lần thử hoặc bạn sẽ bị đá."
+            "giây và 4 lần thử hoặc bạn sẽ bị kick."
         )
     except ChatAdminRequired:
         return
@@ -279,6 +279,13 @@ async def send_welcome_message(chat: Chat, user_id: int, delete: bool = False):
             m = await app.send_photo(
                 chat.id,
                 photo=file_id,
+                caption=text,
+                reply_markup=keyb,
+            )
+        elif welcome == "Video":
+            m = await app.send_video(
+                chat.id,
+                video=file_id,
                 caption=text,
                 reply_markup=keyb,
             )
@@ -441,7 +448,7 @@ async def set_welcome_func(_, message):
         [
             [
                 InlineKeyboardButton(
-                    text="More Help",
+                    text="Hướng dẫn",
                     url=f"t.me/{BOT_USERNAME}?start=help_greetings",
                 )
             ],
@@ -467,6 +474,13 @@ async def set_welcome_func(_, message):
             if not text:
                 return await message.reply_text(usage, reply_markup=key)
             raw_text = text.markdown
+        if replied_message.video:
+            welcome = "Video"
+            file_id = replied_message.video.file_id
+            text = replied_message.caption
+            if not text:
+                return await message.reply_text(usage, reply_markup=key)
+            raw_text = text.markdown
         if replied_message.text:
             welcome = "Text"
             file_id = None
@@ -483,7 +497,7 @@ async def set_welcome_func(_, message):
         if raw_text:
             await set_welcome(chat_id, welcome, raw_text, file_id)
             return await message.reply_text(
-                "Welcome message has been successfully set."
+                "Tin nhắn chào mừng đã được thiết lập thành công."
             )
         else:
             return await message.reply_text(
@@ -492,7 +506,7 @@ async def set_welcome_func(_, message):
             )
     except UnboundLocalError:
         return await message.reply_text(
-            "**Chỉ hỗ trợ tin nhắn chào mừng dạng Văn bản, Gif và Ảnh.**"
+            "**Chỉ hỗ trợ tin nhắn chào mừng dạng Văn bản, Video, Gif và Ảnh.**"
         )
 
 
