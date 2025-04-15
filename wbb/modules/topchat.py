@@ -3,15 +3,15 @@ import re
 from contextlib import suppress
 from time import time
 from pyrogram import filters
-#from pymongo import MongoClient
+from pymongo import MongoClient
 from wbb import app, app2, db
-#from config import MONGO_DB_URI
+from config import MONGO_URL
 from pyrogram.types import *
 
 
-topchatdb = db.topchat
-tc = topchatdb["toptrochuyen"]
-collection = tc["top"]
+mongo_client = MongoClient(MONGO_URL)
+db = topchatdb["toptrochuyen"]
+collection = db["top"]
 
 user_data = {}
 
