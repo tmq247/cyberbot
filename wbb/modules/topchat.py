@@ -3,8 +3,8 @@ import re
 from contextlib import suppress
 from time import time
 from pyrogram import filters
-from pymongo import MongoClient
-from wbb import app, db
+#from pymongo import MongoClient
+from wbb import app, app2, db
 #from config import MONGO_DB_URI
 from pyrogram.types import *
 
