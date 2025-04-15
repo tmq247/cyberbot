@@ -10,7 +10,7 @@ from pyrogram.types import *
 
 
 mongo_client = MongoClient(MONGO_URL)
-db = topchatdb["toptrochuyen"]
+db = mongo_client["toptrochuyen"]
 collection = db["top"]
 
 user_data = {}
