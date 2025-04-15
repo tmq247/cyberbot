@@ -5,9 +5,9 @@ from wbb import app, db
 from pyrogram.types import *
 
 
-mongo_client = MongoClient(MONGO_DB_URI)
-db = mongo_client["toptrochuyen"]
-collection = db["top"]
+topchatdb = db.topchat
+tc = topchatdb["toptrochuyen"]
+collection = tc["top"]
 
 user_data = {}
 
