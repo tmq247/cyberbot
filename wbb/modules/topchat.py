@@ -12,6 +12,7 @@ from pyrogram.types import *
 #mongo_client = MongoClient(MONGO_URL)
 mongo_client = MongoClient(MONGO_URL)
 db = mongo_client["telegram_stats"]
+print(db) 
 collection = db["message_counts"]
 
 
