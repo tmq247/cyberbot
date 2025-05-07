@@ -5,6 +5,7 @@ from pymongo import MongoClient
 from wbb import app, app2, db
 from config import MONGO_URL
 from datetime import datetime, timedelta
+import traceback
 from pyrogram.types import *
 
 
@@ -12,6 +13,7 @@ from pyrogram.types import *
 mongo_client = MongoClient(MONGO_URL)
 db = mongo_client["telegram_stats"]
 collection = db["message_counts"]
+print(db)
 
 def update_message_count(user_id, chat_id):
     """ Cập nhật số lượng tin nhắn theo tuần/tháng trong MongoDB cho từng nhóm """
@@ -47,4 +49,10 @@ async def send_top10(client, message):
     message_text += "**📅 Trong tuần:**\n" + "\n".join([f"- [{user['user_id']}](tg://user?id={user['user_id']}): {user['weekly_count']} tin nhắn" for user in top_weekly])
     message_text += "\n\n**🗓 Trong tháng:**\n" + "\n".join([f"- [{user['user_id']}](tg://user?id={user['user_id']}): {user['monthly_count']} tin nhắn" for user in top_monthly])
 
-    app.send_message(message.chat.id, message_text, disable_web_page_preview=True)
+    await app.send_message(message.chat.id, message_text, disable_web_page_preview=True)
+    try:
+    # Gọi hàm gây lỗi
+        await some_function()
+    except Exception as e:
+        print("Lỗi:", e)
+        traceback.print_exc()
