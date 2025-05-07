@@ -5,7 +5,7 @@ from pymongo import MongoClient
 from wbb import app, app2, db
 from config import MONGO_URL
 from datetime import datetime, timedelta
-import traceback
+#import traceback
 from pyrogram.types import *
 
 
@@ -52,8 +52,9 @@ async def send_top10(client, message):
     message_text = "🏆 **Top 10 người nhắn nhiều nhất:**\n\n"
     message_text += "**📅 Trong tuần:**\n" + "\n".join([f"- [{user['user_id']}](tg://user?id={user['user_id']}): {user['weekly_count']} tin nhắn" for user in top_weekly])
     message_text += "\n\n**🗓 Trong tháng:**\n" + "\n".join([f"- [{user['user_id']}](tg://user?id={user['user_id']}): {user['monthly_count']} tin nhắn" for user in top_monthly])
-    try:
-        await await app.send_message(message.chat.id, message_text, disable_web_page_preview=True)
-    except Exception as e:
-        print("Lỗi:", e)
-        traceback.print_exc()
+    await await app.send_message(message.chat.id, message_text, disable_web_page_preview=True)
+    #try:
+       # await await app.send_message(message.chat.id, message_text, disable_web_page_preview=True)
+    #except Exception as e:
+      #  print("Lỗi:", e)
+      #  traceback.print_exc()
