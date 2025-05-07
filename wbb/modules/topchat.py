@@ -55,7 +55,8 @@ async def send_top10(client, message):
     message_text += "\n\n**🗓 Trong tháng:**\n" + "\n".join([f"- [{user['user_id']}](tg://user?id={user['user_id']}): {user['monthly_count']} tin nhắn" for user in top_monthly])
     #await app.send_message(message.chat.id, message_text, disable_web_page_preview=True)
     try:
-       await app.send_message(message.chat.id, message_text, disable_web_page_preview=True)
+        print(app)
+        await app.send_message(message.chat.id, message_text, disable_web_page_preview=True)
     except Exception as e:
         print("Lỗi:", e)
         traceback.print_exc()
