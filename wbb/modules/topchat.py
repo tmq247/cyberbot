@@ -47,4 +47,4 @@ async def send_top10(client, message):
     message_text += "**📅 Trong tuần:**\n" + "\n".join([f"- [{user['user_id']}](tg://user?id={user['user_id']}): {user['weekly_count']} tin nhắn" for user in top_weekly])
     message_text += "\n\n**🗓 Trong tháng:**\n" + "\n".join([f"- [{user['user_id']}](tg://user?id={user['user_id']}): {user['monthly_count']} tin nhắn" for user in top_monthly])
 
-    await app.send_message(message.chat.id, message_text, disable_web_page_preview=True)
+    app.send_message(message.chat.id, message_text, disable_web_page_preview=True)
